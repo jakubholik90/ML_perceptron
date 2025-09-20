@@ -3,10 +3,7 @@ package pl.programujodpodstaw;
 import smile.data.DataFrame;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException, InvocationTargetException {
@@ -55,16 +52,45 @@ public class Main {
         System.out.println("resultAndProbabilities: " + resultAndProbabilities);
 
         //step 6. show plots
-
         DataRecord resultDataRecord = new DataRecord(resultAndProbabilities.toString(),inputDataRecord.dataX0(),inputDataRecord.dataX1(),inputDataRecord.dataX2());
         trainingDataList.add(resultDataRecord);
-        System.out.println(trainingDataList);
-        for (DataRecord dataRecord : List.copyOf(trainingDataList)) {
-            DataRecord borderPoint = perceptron.getBorderPoint(dataRecord);
-            trainingDataList.add(borderPoint);
+
+        // step 6.
+        double minDataX0 = 0;
+        double maxDataX0 = 0;
+        double minDataX1 = 0;
+        double maxDataX1 = 0;
+        for (DataRecord dataRecord : trainingDataList) {
+            if(dataRecord.dataX0()<=minDataX0) {
+                minDataX0 = dataRecord.dataX0();
+            }
+            if(dataRecord.dataX0()>=maxDataX0) {
+                maxDataX0 = dataRecord.dataX0();
+            }
+            if(dataRecord.dataX1()<=minDataX1) {
+                minDataX1 = dataRecord.dataX1();
+            }
+            if(dataRecord.dataX1()>=maxDataX1) {
+                maxDataX1 = dataRecord.dataX1();
+            }
         }
-        System.out.println("--");
-        System.out.println(trainingDataList);
+
+        int numOfBorderPoints = 51;
+        double borderX0[] = new double[numOfBorderPoints];
+        double borderX1[] = new double[numOfBorderPoints];
+        List<DataRecord> borderPointList = new LinkedList<>();
+
+        for (int i = 0; i < numOfBorderPoints; i++) {
+            for (int j = 0; j < numOfBorderPoints; j++) {
+                borderX0[i] = minDataX0 + i*(maxDataX0-minDataX0)/(numOfBorderPoints-1);
+                borderX1[j] = minDataX1 + j*(maxDataX1-minDataX1)/(numOfBorderPoints-1);
+                DataRecord borderPoint = perceptron.getBorderPoint(new DataRecord(null, borderX0[i], borderX1[j],1));
+                trainingDataList.add(borderPoint);
+                borderPointList.add(borderPoint);
+            }
+
+        }
+
         DataFrame trainingDataFrame = Plot.generateDataFrame(trainingDataList);
         Plot.showPlot(trainingDataFrame);
 

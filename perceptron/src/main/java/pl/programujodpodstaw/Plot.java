@@ -21,15 +21,14 @@ public class Plot {
 
     public static void showPlot(DataFrame dataFrame) throws InterruptedException, InvocationTargetException {
 
-        var figure = ScatterPlot.of(dataFrame,
+        var figureScaterPlot = ScatterPlot.of(dataFrame,
                 "dataX0",
                 "dataX1",
                 "dataX2",
                 "dataName",
                 '*').figure();
-        figure.setAxisLabels("dataX0", "dataX1", "dataX2");
-
-        var pane = new FigurePane(figure);
+        figureScaterPlot.setAxisLabels("dataX0", "dataX1", "dataX2");
+        var pane = new FigurePane(figureScaterPlot);
         pane.window();
     }
 }

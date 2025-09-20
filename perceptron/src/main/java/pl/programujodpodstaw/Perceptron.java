@@ -13,10 +13,14 @@ public class Perceptron {
 
     public Perceptron(double eta, int maxNumberOfIterations) {
         Random random = new Random();
-        this.w0 = random.nextDouble(10) -5;
-        this.w1 = random.nextDouble(10) -5;
-        this.w2 = random.nextDouble(10) -5;
-        this.bias = random.nextDouble(10) - 5;
+//        this.w0 = random.nextDouble(10) -5;
+//        this.w1 = random.nextDouble(10) -5;
+//        this.w2 = random.nextDouble(10) -5;
+//        this.bias = random.nextDouble(10) - 5;
+        this.w0 = 0;
+        this.w1 = 0;
+        this.w2 = 0;
+        this.bias = 0;
         this.eta = eta;
         this.maxNumberOfIterations = maxNumberOfIterations;
         this.currentIteration = 0;
